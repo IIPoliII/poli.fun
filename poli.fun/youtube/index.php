@@ -1,23 +1,20 @@
-<?php
 
-/*
- * PHP script for downloading videos from youtube
- * Copyright (C) 2012-2018  John Eckman
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, see <http://www.gnu.org/licenses/>.
- */
+    <!DOCTYPE html>
 
-$app = include_once('bootstrap.php');
+    <head>
+        <title>PHP Youtube Downloader</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <html>
 
-$app->runWithRoute('index');
+        <body>
+
+            <form method="post" action="process.php">
+                <p><strong>Enter video ID</strong></p>
+                <input type="text" name="id">
+                <input type="submit" value="Submit"/>
+            </form>    
+
+    </body>
+</html>

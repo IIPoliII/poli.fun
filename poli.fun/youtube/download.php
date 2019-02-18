@@ -1,23 +1,77 @@
+#!/usr/bin/php
 <?php
-
-/*
- * PHP script for downloading videos from youtube
- * Copyright (C) 2012-2018  John Eckman
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, see <http://www.gnu.org/licenses/>.
+/**
+ * PHP CLI Youtube Downloader Package
+ * @author Moniruzzaman Monir <monir.smith@gmail.com>
+ * 
  */
 
-$app = include_once('bootstrap.php');
+require 'autoload.php';
 
-$app->runWithRoute('download');
+fwrite(STDOUT, "Please enter video id : ");
+$id = trim(fgets(STDIN));
+
+$fetcher = new Fetcher();
+$fetcher->setId($id);
+
+$array = $fetcher->getData();
+$get_title = $fetcher->getTitle();
+$file_size = Filesize::getFilesize();
+
+$title = urldecode($get_title);
+
+foreach ($array as $item => $value) {
+
+    $format = explode(";", $value['type']);
+    $url_part[] = $array[$item]['url'] . '&title=' . $get_title;
+    $format_title[] = $format[0];
+}
+
+
+foreach ($url_part as $key => $url_p) {
+
+    echo "key [$key]  " . $format_title[$key] . "(" . Converter::megaByte($file_size[$key]) . "mb)\n";
+
+    if (preg_match('/(flv|mp4|webm|3gpp)$/', $format_title[$key], $matches)) {
+
+        $extension[] = $matches[0];
+    }
+}
+
+fwrite(STDOUT, "Please enter video format key : ");
+$video_key = trim(fgets(STDIN));
+$video_get = $url_part[$video_key];
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $video_get);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_NOPROGRESS, 0);
+curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, "progress");
+curl_setopt($ch, CURLOPT_SSLVERSION, 3);
+
+$data = curl_exec($ch);
+$error = curl_error($ch);
+curl_close($ch);
+
+function progress($resource, $download_size, $downloaded, $upload_size, $uploaded)
+{
+
+    $size = Converter::megaByte($download_size);
+    $downloaded_size = Converter::megaByte($downloaded);
+    if ($downloaded_size > 0) {
+
+        $progress = round($downloaded_size * 100 / $size);
+
+        for ($i = 0; $i <= $progress; $i ++) {
+
+            fwrite(STDOUT, $progress . "\033[0G [ " . str_repeat("=", $progress) . ">".str_repeat(' ', 50 - $progress) . " ]$progress% $downloaded_size/$size mb");
+            sleep(1);
+        }
+    }
+}
+
+echo "saving file....\n";
+$destination = "./$title.$extension[$video_key]";
+$file = fopen($destination, "w+");
+fputs($file, $data);
+fclose($file);
