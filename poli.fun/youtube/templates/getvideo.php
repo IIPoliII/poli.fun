@@ -75,7 +75,6 @@ else
 <?php } ?>
 <?php } ?>
 <hr />
-<p class="muted pull-right"><a href="https://github.com/jeckman/YouTube-Downloader" target="_blank">Youtube Downloader <?php echo $this->get('app_version', ''); ?></a> is licensed under GPL 2.</p>
 	<div class="clearfix"></div>
 </div>
 <?php echo $this->inc('footer.php'); ?>
