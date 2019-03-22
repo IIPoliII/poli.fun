@@ -69,7 +69,7 @@ function UnLitreKM($KMTotal, $Litre)
 
 function PrixKM($KMTotal, $PrixTotal)
 {
-  $PrixKM = $KMTotal/$PrixTotal;
+  $PrixKM = $PrixTotal/$KMTotal;
   return $PrixKM;
 }
 
