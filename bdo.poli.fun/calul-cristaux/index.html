@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="OHxSee26XiWQQLHdqw1hDvPq3pVMNFXKO_MVjh1j454" />
+    <title>BDO Crystalz - Black Desert Online Crystal Reference</title>
+    <link rel="stylesheet" href="styles/bootswatch.night.min.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+</head>
+<body ng-app="crystalApp">
+<div ng-controller="crystalCtrl as cc" class="container">
+    <div class="row">
+        <div class="col-md-12">
+                <h2>BDO Crystalz</h2>
+                <h4>Black Desert Online Crystal Reference</h4>
+                <br />
+                <p>Tu veux savoir quel cristal choisir ta trouver :3 (malheuresement le reste est en anglais bonne chance ;3 )</p>
+                <p>This is a reference for Black Desert Online items called crystals. Crystals are used to slot into specific gear pieces in order to give you some added effects. With this site, you can easily find which crystals suit your specific needs by filtering by the crystal's <em>grade</em>, <em>the effects it grants</em>, <em>which slot it goes in</em>, and <em>how often it is likely to break when you die.</em></p>
+                <p>See something that's wrong? Have a suggestion for new features? Create an <b>issue</b> or <b>pull request</b> on our <a target="_blank" href="https://github.com/AlphaOptix/bdocrystalz">Github</a>.</p>
+                <br />
+        </div>
+    </div>
+    <div class="row" class="top-pad">
+        <div class="col-md-2">
+            <label>Grade</label>
+        </div>
+        <div class="col-md-2">
+            <label>Socket</label>
+        </div>
+        <div class="col-md-2">
+            <label>Break Chance</label>
+        </div>
+        <div class="col-md-2">
+            <label>Effect</label>
+        </div>
+    </div>
+    <div class="row" class="bottom-pad">
+        <div class="col-md-2">
+            <select class="filter-select" ng-model="cc.search.grade">
+                <option value="">All</option>
+                <option value="1">White</option>
+                <option value="2">Green</option>
+                <option value="3">Blue</option>
+                <option value="4">Yellow</option>
+                <option value="5">Orange</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="filter-select" ng-model="cc.search.socket">
+                <option value="">All</option>
+                <option value="Any">Any</option>
+                <option value="Weapon">Weapon</option>
+                <option value="Secondary Weapon">Secondary Weapon</option>
+                <option value="Costume">Costume</option>
+                <option value="Helmet">Helmet</option>
+                <option value="Armor">Armor</option>
+                <option value="Gloves">Gloves</option>
+                <option value="Shoes">Shoes</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="filter-select" ng-model="cc.search.breakChance">
+                <option value="">All</option>
+                <option value="None">None</option>
+                <option value="Low">Low</option>
+                <option value="Average">Average</option>
+                <option value="High">High</option>
+                <option value="Very High">Very High</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="filter-select" ng-model="cc.search.effect" ng-options="effect.value as effect.name for effect in cc.effects"></select>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table-striped crystal-table">
+                <thead>
+                <tr>
+                    <th width="5%"></th>
+                    <th width="40%">Crystal</th>
+                    <th>Effect</th>
+                    <th width="10%">Break Chance</th>
+                    <th width="15%">Socket</th>
+                </tr>
+                </thead>
+                <tbody ng-cloak>
+                    <tr ng-repeat="crystal in cc.crystals | crystal:cc.search | orderBy:['-grade','+name'] as results track by crystal.id">
+                        <td><img class="crystal-icon" ng-src="{{crystal.icon}}" /></td>
+                        <td ng-cloak><a class="crystal-name rarity-{{crystal.grade}}" target="_blank" ng-href="{{'http://bddatabase.net/us/item/'+crystal.id}}">{{crystal.name}}</a></td>
+                        <td ng-cloak><p ng-bind-html="crystal.effect | unsafe"></p></td>
+                        <td ng-cloak>{{crystal.breakChance}}</td>
+                        <td ng-cloak>{{crystal.socket}}</td>
+                    </tr>
+                    <tr ng-cloak ng-if="results.length == 0">
+                        <td></td>
+                        <td colspan="4" class="top-bottom-pad"><b>No Results Found...</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-sanitize.min.js"></script>
+<script src="scripts/crystals.js"></script>
+<script src="scripts/app.js"></script>
+</body>
+</html>
