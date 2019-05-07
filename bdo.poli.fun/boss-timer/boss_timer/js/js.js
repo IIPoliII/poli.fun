@@ -3,7 +3,6 @@ var current_row = 0;
 var current_col = 0;
 var next = new Date();
 var interval = setInterval(myFunction, 1000);
-var interval = setInterval(BDO_Time, 1000);
 var current_boss =[];
 var accept_notify = false;
 var audio = new Audio('boss_timer/js/nhac.mp3');
@@ -94,30 +93,6 @@ function myFunction() {
 		switchTime(1);;
 	}
 	
-}
-function BDO_Time(){
-bdo_first_night = bdo_day = bdo_second_night = 0;
-    if (percent > percent_night) {
-        bdo_first_night = percent_night;
-        if (percent > percent_night + percent_day) {
-            bdo_day = percent_day;
-            bdo_second_night = percent - (real_percent_night + real_percent_day);
-        } else {
-            bdo_day = percent - bdo_first_night;
-        }
-    } else {
-        bdo_first_night = percent;
-    }
-
-    day_add = real_percent_day / percent_day;
-    night_add = real_percent_night / percent_night;
-
-    first_night_minutes = (240 / 100 * (bdo_first_night * night_add) * 6);
-    day_minutes = (240 / 100 * ((bdo_day) * day_add) * 6);
-    second_night_minutes = (240 / 100 * ((percent - bdo_day - bdo_first_night) * night_add) * 6);
-
-	text_left.innerHTML =  first_night_minutes +" : "+day_minutes +" : "+second_night_minutes;	
-    //return gmdate('H:i:s', (first_night_minutes + day_minutes + second_night_minutes) * 60);
 }
 
 function switchTime(block_time)
