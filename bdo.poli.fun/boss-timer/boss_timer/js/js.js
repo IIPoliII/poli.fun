@@ -6,6 +6,10 @@ var interval = setInterval(myFunction, 1000);
 var current_boss =[];
 var accept_notify = false;
 var audio = new Audio('boss_timer/js/nhac.mp3');
+//Grant notifications
+if (Notification.permission !== "granted") {
+                Notification.requestPermission();
+}
 function test(inp)
 {
 	switch(inp)
