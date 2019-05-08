@@ -66,8 +66,7 @@ currentDate = currentDate.getDate();
 
 	c_hour = current.getHours();
 	c_min = current.getMinutes();
-  c_hour = 22;
-  c_min = 33;
+
 	if(c_hour >= 0 && c_hour <= 1 && c_min > 30 || c_hour >= 1 && c_hour <= 3 && c_min <= 15 || c_hour == 1)
 	{
 		switchTime(2); // 2:00 (until 2:15)
