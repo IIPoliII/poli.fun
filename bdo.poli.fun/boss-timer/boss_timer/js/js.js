@@ -14,7 +14,7 @@ function test(inp)
 {
 	switch(inp)
 	{
-		case 1:	
+		case 1:
 			//if(audio.duration > 0 && !audio.paused)
 			//	audio.pause();
 			//else
@@ -26,27 +26,28 @@ function test(inp)
 		default:
 			notify();
 		break;
-	}	
+	}
 }
 
-function myFunction() {	
-	
+function myFunction() {
+var currentDate = new Date();
+currentDate = currentDate.getDate();
 	if (Notification.permission !== "granted") {
 		//alert(Notification.permission);
 		//Notification.requestPermission();
 	}
-	
+
 	var text_left = document.getElementById("left");
 	var current = new Date();
-	
+
 	var left = ((next - current)>0)?Math.abs(next - current)/1000:0/1000;
-	var hours = format_time(Math.floor(left / 3600) % 24);        
+	var hours = format_time(Math.floor(left / 3600) % 24);
 	var minutes = format_time(Math.floor(left / 60) % 60);
 	var seconds = format_time(Math.floor(left % 60));
 
-	text_left.innerHTML =  hours +" : "+minutes +" : "+seconds;		
-	if(parseInt(hours) >= 0 && parseInt(minutes) >= 0 && parseInt(seconds) != 0) 
-	{			
+	text_left.innerHTML =  hours +" : "+minutes +" : "+seconds;
+	if(parseInt(hours) >= 0 && parseInt(minutes) >= 0 && parseInt(seconds) != 0)
+	{
 		if(parseInt(hours) == 0 && parseInt(minutes) < 10)
 		{
 			notify();
@@ -54,26 +55,33 @@ function myFunction() {
 		// 2 phut
 		if(parseInt(minutes) % 2 == 0 && parseInt(seconds) == 0)
 		{
-			show_notify = false;	
+			show_notify = false;
 		}
-		return;		
+		return;
 	}
 	else
 	{
-		show_notify = false;		
+		show_notify = false;
 	}
 
 	c_hour = current.getHours();
-	c_min = current.getMinutes();	
-
+	c_min = current.getMinutes();
+  c_hour = 22;
+  c_min = 33;
 	if(c_hour >= 0 && c_hour <= 1 && c_min > 30 || c_hour >= 1 && c_hour <= 3 && c_min <= 15 || c_hour == 1)
 	{
 		switchTime(2); // 2:00 (until 2:15)
 	}else if(c_hour < 1 ||((c_hour == 22 && c_min > 30) || c_hour > 22))
 	{
 		if(c_hour != 0)
-			next.setDate(next.getDate()+1);
+    {
+			nextDate = next.getDate();
+      if (currentDate == nextDate)
+      {
+        next.setDate(next.getDate()+1);
+      }
 		switchTime(1); // 0:15 (until 0:30)
+  }
 	}else if(c_hour >= 2 && c_hour <= 4 && c_min >= 15 || c_hour >= 3 && c_hour <= 4 || c_hour == 5 && c_min <= 15)
 	{
 		switchTime(3); // 5:00 (until 5:15)
@@ -96,23 +104,23 @@ function myFunction() {
 	{
 		switchTime(1);;
 	}
-	
+
 }
 
 function switchTime(block_time)
-{	
+{
 	var row = 0;
 	switch(block_time)
 	{
-		case 1:	
+		case 1:
 			next.setHours(0);
-			next.setMinutes(15);	
-			row = 1		 
+			next.setMinutes(15);
+			row = 1
 			break;
 		case 2:
 			next.setHours(2);
 			next.setMinutes(0);
-			row = 2;		
+			row = 2;
 			break;
 		case 3:
 			next.setHours(5);
@@ -146,8 +154,8 @@ function switchTime(block_time)
 		break;
 		default:break;
 	}
-	next.setSeconds(0);	
-	var col = next.getDay() == 0 ? 9 : next.getDay() - 1;	
+	next.setSeconds(0);
+	var col = next.getDay() == 0 ? 9 : next.getDay() - 1;
 	switch_stable(row, col);
 }
 function switch_stable(row,col) //row start from 1, col from 0
@@ -155,39 +163,39 @@ function switch_stable(row,col) //row start from 1, col from 0
 	if(current_row == row && current_col == col)
 		return;
 	else
-	{		
-		setColor(current_row,current_col,'white');		
+	{
+		setColor(current_row,current_col,'white');
 		current_row = row;
 		current_col = col;
 		setColor(current_row,current_col,'#800080');
 	}
-	
+
 }
 function setColor(row,col,color)
 {
 	if(row < 1 || row > 9 || col < 0  ||  col > 9)
 		return;
-	var refTab = document.getElementById("tboss");	
-	var row_tmp = refTab.rows[row];	
+	var refTab = document.getElementById("tboss");
+	var row_tmp = refTab.rows[row];
 	var col_pos = 1;
-	var col_tmp = row_tmp.cells[col_pos];    
+	var col_tmp = row_tmp.cells[col_pos];
 	while(col > 0)
-	{		
+	{
 		if(col_tmp.colSpan == 2)
 		{
-			col_pos+=1;			
+			col_pos+=1;
 			col--;
 		}
 		else
 		{
-			col_pos+=2;			
+			col_pos+=2;
 			col--;
 		}
 		col_tmp = row_tmp.cells[col_pos];
 	};
-	
-	if(row_tmp.cells[col_pos].colSpan == 1)		 
-	{   	
+
+	if(row_tmp.cells[col_pos].colSpan == 1)
+	{
 		var col2 = row_tmp.cells[col_pos+1];
 		setNewBoss([col_tmp.firstChild.nodeValue, col2.firstChild.nodeValue]);
 		current_boss = [col_tmp.firstChild.nodeValue, col2.firstChild.nodeValue];
@@ -196,50 +204,50 @@ function setColor(row,col,color)
 	}
 	else
 	{
-		setNewBoss([col_tmp.firstChild.nodeValue]);   
+		setNewBoss([col_tmp.firstChild.nodeValue]);
 		col_tmp.bgColor =color;
 		current_boss = [col_tmp.firstChild.nodeValue];
-	}	
+	}
 }
 function setNewBoss(boss)
-{	
+{
 	var next_boss = document.getElementById("next_boss");
 	if(next_boss)
 	{
 		var tbl     = document.createElement("table");
         var tblBody = document.createElement("tbody");
 
-        var row = document.createElement("tr");           
-        var cell = document.createElement("td");    
-        var cell2 = document.createElement("td");  
+        var row = document.createElement("tr");
+        var cell = document.createElement("td");
+        var cell2 = document.createElement("td");
 		if(boss.length == 2)
 		{
 			var element = document.createElement("div");
 			element.innerHTML= boss[0];
 			element.className = "Image " + "Display " + boss[0];
-			element.style="float:left; text-align:center;font-size: 16px;		border: 1px solid #CCC; 	font-family: Arial, Helvetica, sans-serif;";	
+			element.style="float:left; text-align:center;font-size: 16px;		border: 1px solid #CCC; 	font-family: Arial, Helvetica, sans-serif;";
 			var element2 = document.createElement("div");
 			element2.innerHTML= boss[1];
-			element2.className = "Image " + "Display " + boss[1];		
-			element2.style="float:right; text-align:center;font-size: 16px;		border: 1px solid #CCC; 	font-family: Arial, Helvetica, sans-serif;";			
-		   
+			element2.className = "Image " + "Display " + boss[1];
+			element2.style="float:right; text-align:center;font-size: 16px;		border: 1px solid #CCC; 	font-family: Arial, Helvetica, sans-serif;";
+
 	        cell.appendChild(element);
 	        cell2.appendChild(element2);
 	        row.appendChild(cell);
-	        row.appendChild(cell2); 
+	        row.appendChild(cell2);
 		}
 		else
-		{			
+		{
 			var element = document.createElement("div");
 			element.className = "Image " + "Display " + boss[0];
 			element.innerHTML= boss[0];
-			element.style="text-align:center;font-size: 16px;	border: 1px solid #CCC; 	font-family: Arial, Helvetica, sans-serif;";			
+			element.style="text-align:center;font-size: 16px;	border: 1px solid #CCC; 	font-family: Arial, Helvetica, sans-serif;";
 			cell.appendChild(element);
 			row.appendChild(cell);
-		}	
+		}
 		tblBody.appendChild(row);
-	    tbl.align = "center";  
-	    tbl.appendChild(tblBody); 
+	    tbl.align = "center";
+	    tbl.appendChild(tblBody);
 	    next_boss.replaceChild(tbl, next_boss.childNodes[0]);
     }
 }
@@ -259,7 +267,7 @@ function notify(){
 			var notification = new Notification('Boss maintenant :', {
 			  body: (current_boss.length == 2 ? (current_boss[0] +" et "+current_boss[1]):current_boss[0]),
 			  icon: "https://bdo.poli.fun/boss-timer/images/Notif.png",
-			});			
+			});
 			audio.play();
 		}
 		show_notify = true;
