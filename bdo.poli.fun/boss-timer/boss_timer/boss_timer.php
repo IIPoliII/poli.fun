@@ -32,7 +32,7 @@
         var refreshId = setInterval(function()
         {
             $container.load('time.php');
-        }, 2000);
+        }, 5000);
     });
 })(jQuery);
 </script>
