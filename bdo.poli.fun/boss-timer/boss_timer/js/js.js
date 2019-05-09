@@ -70,7 +70,7 @@ currentDate = currentDate.getDate();
 	if(c_hour >= 0 && c_hour <= 1 && c_min > 30 || c_hour >= 1 && c_hour <= 3 && c_min <= 15 || c_hour == 1)
 	{
 		switchTime(2); // 2:00 (until 2:15)
-	}else if(c_hour < 1 ||((c_hour == 22 && c_min > 30) || c_hour > 22))
+	}else if(c_hour >= 22 && c_min > 30 && c_hour <= 24)
 	{
 		if(c_hour != 0)
     {
