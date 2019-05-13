@@ -96,12 +96,12 @@ currentDate = currentDate.getDate();
 	}else if(c_hour >= 16 && c_hour <= 18 && c_min >= 15 || c_hour >= 17 && c_hour <= 18 || c_hour == 19 && c_min <= 15)
 	{
 		switchTime(7); // 19:00 (until 19:15)
-	}else if(c_hour >= 10 && c_hour <= 21 && c_min >= 15 || c_hour >= 20 && c_hour <= 21 || c_hour == 22 && c_min <= 30)
+	}else if(c_hour >= 19 && c_hour <= 21 && c_min >= 15 || c_hour >= 20 && c_hour <= 21 || c_hour == 22 && c_min <= 30)
 	{
 		switchTime(8); // 22:15 (until 22:30)
 	}else
 	{
-		switchTime(1);;
+		switchTime(1);
 	}
 
 }
